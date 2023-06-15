@@ -1,36 +1,36 @@
 ---
-– name: Install Packages
+â€“ name: Install Packages Automation.
   hosts: webservers
   vars:
      root_db_password: Mysql@123
 
   tasks:
 
-   – name: Install MySQL Community Repo
+   â€“ name: Install MySQL Community Repo
      command: /usr/bin/rpm -ivh /tmp/mysql-community-release-el7-7.noarch.rpm
 
-   – name: Install MySQL Server
+   â€“ name: Install MySQL Server
      yum: name=mysql-server state=present
 
-   – name: Install MySQL-python, this is required for the task remove anonymous user
+   â€“ name: Install MySQL-python, this is required for the task remove anonymous user
      yum: name=MySQL-python state=present
 
-   – name: Start MySQL Server and enable it
+   â€“ name: Start MySQL Server and enable it
      service: name=mysqld state=started enabled=yes
 
-   – name: Remove Test database if it exist.
+   â€“ name: Remove Test database if it exist.
      mysql_db: name=test state=absent
 
-   – name: Remove All Anonymous User Accounts
-     mysql_user: name=” host_all=yes state=absent
+   â€“ name: Remove All Anonymous User Accounts
+     mysql_user: name=â€ host_all=yes state=absent
 
-#  – name: Output node1.cluster
-#    debug: msg=”Hostname is {{node1.cluster}}”
+#  â€“ name: Output node1.cluster
+#    debug: msg=â€Hostname is {{node1.cluster}}â€
 
-   – name: Change root password
+   â€“ name: Change root password
      mysql_user: name=root host={{item}} password={{root_db_password}}
      with_items:
-        – “{{node1.cluster}}”
-        – 127.0.0.1
-        – ::1
-        – localhost
+        â€“ â€œ{{node1.cluster}}â€
+        â€“ 127.0.0.1
+        â€“ ::1
+        â€“ localhost
